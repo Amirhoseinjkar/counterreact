@@ -1,7 +1,27 @@
-import { useState } from "react"
+import { useReducer } from "react"
 import './counter.css'
+
+const reducer = function(state,action){
+  switch (action.type) {
+    case 'decrement':
+      return {count:state.count -1}
+      
+     
+      case 'increment':
+      return {count: state.count+1}
+  case 'reset':
+     return  {count:0}
+
+    default:
+      return state
+      
+  }
+}
+
+
 export function Counter(){
-  let [count,setCount] = useState(0)
+
+const [state,dispatch] = useReducer(reducer, {count:0})
 
 
   
@@ -10,21 +30,21 @@ export function Counter(){
     <div className="container">
 
       <div>
-         <h1 style={{color:count<0?'red':'rgb(165, 161, 161)'}}>{count}</h1>
+         <h1 style={{color:state.count<0?'red':'rgb(165, 161, 161)'}}>{state.count}</h1>
       </div>
       <div>
         <button className="last"
         onClick={()=>{
-          return setCount(count -1)
+          dispatch({type:'decrement'})
         }}
         
         >←</button>
         <button onClick={()=>{
-          setCount(0)
+         dispatch({type:"reset"})
         }}>reset</button>
         <button className="next"
         onClick={()=>{
-          return setCount(count + 1)
+          dispatch({type:"increment"})
         }}
         >→</button>
 
